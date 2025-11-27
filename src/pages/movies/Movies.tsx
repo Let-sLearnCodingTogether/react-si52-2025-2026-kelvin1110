@@ -14,7 +14,7 @@ interface Movie{
 
 function Movies(){
     const [movie,setMovies] = useState<Movie[]>([])
-    const [loading,setLoading] = useState<boolean>(false)
+    const [loading,setLoading] = useState<boolean>(true)
 
     const fetchMovies = useCallback(async() => {
         setLoading(true)
