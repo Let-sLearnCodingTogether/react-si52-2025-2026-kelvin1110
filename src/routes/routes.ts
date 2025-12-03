@@ -2,28 +2,49 @@ import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
     {
-        path : "/",// alamat dari sebuah page
+        path : "/",
         children : [
             {
-                index: true,
-                lazy: {
-                    Component : async() => {
-                        const Component = await import("../pages/movies/Movies.tsx")
-                        return Component.default
-                
+                index : true,
+                lazy : {
+                    Component : async () => {
+                        const component = await import ("../auth/signup/SignUp.tsx")
+                        return component.default
                     }
                 }
-            
             },
             {
-                path: "add-movie",
-                lazy: {
-                    Component : async() => {
-                        const Component = await import("../pages/movies/Addmovies.tsx")
-                        return Component.default
+                path : "signIn",
+                lazy : {
+                    Component : async () => {
+                        const component = await import ("../auth/signin/SignIn.tsx")
+                        return component.default
                     }
                 }
-            }    
+            }
+        ]
+    },
+    {
+        path : "/movies", // alamat dari sebuah page
+        children : [
+            {
+                index : true,
+                lazy : {
+                    Component : async () => {
+                        const component = await import ("../pages/movies/Movies.tsx")
+                        return component.default
+                    }
+                }
+            },
+            {
+                path : "add-movie",
+                lazy : {
+                    Component : async () => {
+                        const component = await import ("../pages/movies/Addmovies.tsx")
+                        return component.default
+                    }
+                }
+            }
         ]
     }
 ])
