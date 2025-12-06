@@ -27,10 +27,9 @@ function SignUp() {
 
     const onSubmit = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         try {
             const response = await ApiClient.post("/signup", form);
-            console.log(response);
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -38,7 +37,7 @@ function SignUp() {
 
     return <div className="container mx-auto">
             <h4>Sign Up Page</h4>
-        <Form>
+        <Form onSubmit={onSubmit}>
             <Form.Group className="mb-3" controlId="formUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -68,10 +67,10 @@ function SignUp() {
             </Form.Group>
 
             <Button type="submit" variant="primary">
-                MASOK OIII
+                MASOK JOK
             </Button>
             <NavLink to="/signIn" className="btn btn-link">
-                ADO AKUN DAK? Sign In Lah Cepet 
+                La Punyo Akun? Sign In Lah
             </NavLink>
         </Form>
         </div>

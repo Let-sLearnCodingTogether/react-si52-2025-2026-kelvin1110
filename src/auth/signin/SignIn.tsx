@@ -1,16 +1,17 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 import ApiClient from "../../utils/ApiClient";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
-
-interface SignUpForm {
+interface SignInForm {
     email : string,
     password : string
 }
 
 function SignIn() {
-        const [ form, setForm ] = useState<SignUpForm>({
+    const navigate = useNavigate();
+    const[isLoading, setIsLoading] = useState<boolean>(false);
+        const [ form, setForm ] = useState<SignInForm>({
         email : "",
         password : ""
     });
@@ -25,18 +26,28 @@ function SignIn() {
 
     const onSubmit = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setIsLoading(true);
         try {
-            const response = await ApiClient.post("/signin", form);
-            console.log(response);
+            const response = await ApiClient.post('/signin', form);
+            console.log(response.data);
+
+            if(response.status === 200){
+                localStorage.setItem("AuthToken", response.data.data.token);
+                navigate("/movie", {
+                    replace : true
+                });
+            }
+
         } catch (error) {
             console.log(error);
+        }finally{
+            setIsLoading(false);
         }
     }
 
     return <div className="container mx-auto">
             <h2>Sign In Page</h2>
-            <Form>
+        <Form onSubmit={onSubmit}>
             <Form.Group className="mb-3" controlId="formEmail">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -55,15 +66,14 @@ function SignIn() {
                     type="password"
                     placeholder="Password Address"/>
             </Form.Group>
-
-            <Button type="submit" variant="primary">
-                MASOK OIII
+            <Button type="submit" variant="primary" disabled={isLoading}>
+                {isLoading ? "Loading..." : "Sign In"}
             </Button>
-              <NavLink to="/" className="btn btn-link">
-                Kalo Katek Akun? Sign Up Lah Cepet 
+            <NavLink to='/signup' className="btn btn-link">
+                KALO BLOM PUNYO SIGN UP COY
             </NavLink>
-            </Form>
-            </div>
+        </Form>
+        </div>
 }
 
 export default SignIn;

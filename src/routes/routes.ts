@@ -5,7 +5,7 @@ const router = createBrowserRouter([
         path : "/",
         children : [
             {
-                index : true,
+                path : "signUp",
                 lazy : {
                     Component : async () => {
                         const component = await import ("../auth/signup/SignUp.tsx")
